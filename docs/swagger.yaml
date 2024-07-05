@@ -1,4 +1,110 @@
+definitions:
+  github_com_wopoczynski_todoapp_internal_database.TodoModel:
+    properties:
+      completed:
+        type: boolean
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      id:
+        type: string
+      order:
+        type: integer
+      title:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
 info:
   contact: {}
-paths: {}
+paths:
+  /ping:
+    get:
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      tags:
+      - Health
+  /todos:
+    delete:
+      description: Delete created todo by id
+      parameters:
+      - description: TODO ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+      summary: Delete todo
+      tags:
+      - Todo App
+    get:
+      description: Get created todo by id
+      parameters:
+      - description: TODO ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+      summary: Get todo
+      tags:
+      - Todo App
+    patch:
+      description: Update todo
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_wopoczynski_todoapp_internal_database.TodoModel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: PATCH todo
+      tags:
+      - Todo App
+    post:
+      description: Create todo
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_wopoczynski_todoapp_internal_database.TodoModel'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+      summary: POST todo
+      tags:
+      - Todo App
 swagger: "2.0"

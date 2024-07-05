@@ -20,11 +20,28 @@ func NewHandler(r database.TodoRepository) *Handler {
 	}
 }
 
+// GetAllTodos godoc
+//
+//	@Summary        GET all todos
+//	@Description    Get list of all todos created
+//	@Tags           Todo App
+//	@Produce        json
+//	@Success        200 {object}    []database.TodoModel
+//	@Router         /todos [get]
 func (h *Handler) GetAllTodos(c echo.Context) error {
 	ctx := c.Request().Context()
 	return c.JSON(http.StatusOK, h.repository.GetAll(ctx))
 }
 
+// CreateTodo godoc
+//
+//	@Summary        POST todo
+//	@Description    Create todo
+//	@Tags           Todo App
+//	@Produce        json
+//	@Param          request	body	database.TodoModel	true	"Request body"
+//	@Success        201
+//	@Router         /todos [post]
 func (h *Handler) CreateTodo(c echo.Context) error {
 	ctx := c.Request().Context()
 	var todo database.TodoModel
@@ -36,6 +53,14 @@ func (h *Handler) CreateTodo(c echo.Context) error {
 	return c.JSON(http.StatusCreated, rsp)
 }
 
+// DeleteAllTodos godoc
+//
+//	@Summary        Delete todos
+//	@Description    Delete all created todo by id
+//	@Tags           Todo App
+//	@Success        204
+//	@Failure        400
+//	@Router         /todos [delete]
 func (h *Handler) DeleteAllTodos(c echo.Context) error {
 	ctx := c.Request().Context()
 
@@ -46,6 +71,15 @@ func (h *Handler) DeleteAllTodos(c echo.Context) error {
 	return c.JSON(http.StatusOK, nil)
 }
 
+// GetTodo godoc
+//
+//	@Summary        Get todo
+//	@Description    Get created todo by id
+//	@Tags           Todo App
+//	@Param          id  path    string  true    "TODO ID"
+//	@Success        201
+//	@Failure        400
+//	@Router         /todos [get]
 func (h *Handler) GetTodo(c echo.Context) error {
 	ctx := c.Request().Context()
 	id := c.Param("id")
@@ -64,6 +98,15 @@ func (h *Handler) GetTodo(c echo.Context) error {
 	return c.JSON(http.StatusCreated, rsp)
 }
 
+// DeleteTodo godoc
+//
+//	@Summary        Delete todo
+//	@Description    Delete created todo by id
+//	@Tags           Todo App
+//	@Param          id  path    string  true    "TODO ID"
+//	@Success        204
+//	@Failure        400
+//	@Router         /todos [delete]
 func (h *Handler) DeleteTodo(c echo.Context) error {
 	ctx := c.Request().Context()
 	id := c.Param("id")
@@ -82,6 +125,15 @@ func (h *Handler) DeleteTodo(c echo.Context) error {
 	return c.JSON(http.StatusNoContent, nil)
 }
 
+// UpdateTodo godoc
+//
+//	@Summary        PATCH todo
+//	@Description    Update todo
+//	@Tags           Todo App
+//	@Produce        json
+//	@Param          request	body	database.TodoModel	true	"Request body"
+//	@Success        200
+//	@Router         /todos [patch]
 func (h *Handler) UpdateTodo(c echo.Context) error {
 	ctx := c.Request().Context()
 	var todo database.TodoModel
